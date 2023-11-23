@@ -2,8 +2,8 @@
 
 ## Development
 
-To run the app:
+To compile and run the app, run the following command:
 
 ```sh
-$ cargo run --features bevy/dynamic_linking
+$ ./compile_and_serve.sh
 ```
