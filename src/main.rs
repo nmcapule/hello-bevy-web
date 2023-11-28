@@ -32,7 +32,7 @@ fn system(mut gizmos: Gizmos, time: Res<Time>) {
 
     // Triangle
     gizmos.linestrip_gradient_2d([
-        (Vec2::Y * 290., Color::BLUE),
+        (Vec2::Y * 301., Color::BLUE),
         (Vec2::new(-255., -155.), Color::RED),
         (Vec2::new(255., -155.), Color::GREEN),
         (Vec2::Y * 300., Color::BLUE),

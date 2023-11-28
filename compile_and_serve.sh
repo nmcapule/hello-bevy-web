@@ -8,4 +8,4 @@ wasm-bindgen \
     --target web \
     target/wasm32-unknown-unknown/debug/hello-bevy-web.wasm
 
-python3 -m http.server --directory web
+python3 -m http.server --directory web 8080
