@@ -6,6 +6,7 @@ On first check out, install the wasm target first:
 
 ```sh
 $ rustup target add wasm32-unknown-unknown
+$ cargo install wasm-bindgen-cli
 ```
 
 To compile and run the app, run the following command:
