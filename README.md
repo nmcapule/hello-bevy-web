@@ -60,3 +60,18 @@ $ cargo build --features bevy/dynamic_linking
 
 Much better!
 
+**Update #3**: I tried the wasm build again, it's back to 1 minute builds :(
+
+**Update #4**: I'll just follow thru fully for the [fast build instructions](https://bevyengine.org/learn/book/getting-started/setup/#enable-fast-compiles-optional).
+
+```sh
+$ cargo build --features bevy/dynamic_linking
+   Compiling hello-bevy-web v0.1.0 (/usr/local/google/home/ncapule/projects/hello-bevy-web)
+    Finished dev [optimized + debuginfo] target(s) in 11.43s
+$ vim src/main.rs # edited some bit                           
+$ cargo build --features bevy/dynamic_linking
+   Compiling hello-bevy-web v0.1.0 (/usr/local/google/home/ncapule/projects/hello-bevy-web)
+    Finished dev [optimized + debuginfo] target(s) in 1.11s
+```
+
+Looooks good.
