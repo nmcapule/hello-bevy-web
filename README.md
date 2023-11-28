@@ -65,6 +65,12 @@ Much better!
 **Update #4**: I'll just follow thru fully for the [fast build instructions](https://bevyengine.org/learn/book/getting-started/setup/#enable-fast-compiles-optional).
 
 ```sh
+$ sudo apt install mold clang
+```
+
+and then:
+
+```sh
 $ cargo build --features bevy/dynamic_linking
    Compiling hello-bevy-web v0.1.0 (/usr/local/google/home/ncapule/projects/hello-bevy-web)
     Finished dev [optimized + debuginfo] target(s) in 11.43s
