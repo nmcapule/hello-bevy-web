@@ -17,7 +17,8 @@ $ ./compile_and_serve.sh
 ## Conclusion
 
 Development of rust bevy for the web is suuuuper slow :( Takes me 1 minute to
-compile and run the example app in Codespaces.
+compile and run the example app in Codespaces from cache, with a single line
+change.
 
 ```sh
 $ ./compile_and_serve.sh
@@ -42,3 +43,20 @@ Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 ```
 
 Maybe I could make it faster if my compile target is not wasm.
+
+**Update #2**: Tried it, got some errors so I have to do:
+
+```sh
+$ sudo apt install librust-alsa-sys-dev libudev-dev
+```
+
+and then:
+
+```sh
+$ cargo build --features bevy/dynamic_linking
+   Compiling hello-bevy-web v0.1.0 (/usr/local/<...>/home/ncapule/projects/hello-bevy-web)
+    Finished dev [optimized + debuginfo] target(s) in 2.90s
+```
+
+Much better!
+
