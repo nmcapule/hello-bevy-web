@@ -1,7 +1,9 @@
+use bevy::core_pipeline::{bloom::BloomSettings, tonemapping::Tonemapping};
 use bevy::diagnostic::FrameTimeDiagnosticsPlugin;
 use bevy::diagnostic::LogDiagnosticsPlugin;
 use bevy::prelude::*;
 
+use std::f32::consts::PI;
 use std::{
     collections::hash_map::DefaultHasher,
     hash::{Hash, Hasher},
@@ -23,14 +25,25 @@ fn setup_scene(
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     let zoom = 20.;
-    commands.spawn((Camera3dBundle {
-        camera: Camera { ..default() },
-        transform: Transform::from_xyz(-2.0 * zoom, 2.5 * zoom, 5.0 * zoom)
-            .looking_at(Vec3::ZERO, Vec3::Y),
-        ..default()
-    },));
+    commands.spawn((
+        Camera3dBundle {
+            camera: Camera {
+                hdr: true,
+                ..default()
+            },
+            tonemapping: Tonemapping::TonyMcMapface, // 2. Using a tonemapper that desaturates to white is recommended
+            transform: Transform::from_xyz(-2.0 * zoom, 2.5 * zoom, 5.0 * zoom)
+                .looking_at(Vec3::ZERO, Vec3::Y),
+            ..default()
+        },
+        BloomSettings::default(), // 3. Enable bloom for the camera
+    ));
 
-    let material = materials.add(StandardMaterial {
+    let material_emissive1 = materials.add(StandardMaterial {
+        emissive: Color::rgb_linear(13.99, 5.32, 2.0), // 4. Put something bright in a dark environment to see the effect
+        ..default()
+    });
+    let material_non_emissive = materials.add(StandardMaterial {
         base_color: Color::GRAY,
         ..default()
     });
@@ -46,6 +59,13 @@ fn setup_scene(
                 if rand > 0 {
                     continue;
                 }
+
+                let rand2 = (hasher.finish() - 2) % 5;
+                let material = match rand2 {
+                    0 => material_emissive1.clone(),
+                    1..=5 => material_non_emissive.clone(),
+                    _ => unreachable!(),
+                };
 
                 commands.spawn((PbrBundle {
                     mesh: mesh.clone(),
@@ -73,7 +93,10 @@ fn orbit_camera_controls_system(
     //     Quat::from_array([0., 0., 0., 0.1]),
     // )
 
-    transform.translation.x = (timer.elapsed_seconds() * 5.).sin() * 20.;
-    transform.translation.y = (timer.elapsed_seconds() * 5.).cos() * 20.;
-    transform.look_at(Vec3::from((0., 0., 0.)), Vec3::Y);
+    // transform.translation.x = timer.elapsed_seconds().sin() * 100.;
+    // transform.translation.y = timer.elapsed_seconds().cos() * 100.;
+    // transform.look_at(Vec3::from((0., 0., 0.)), Vec3::Y);
+
+    let rotation = Quat::from_axis_angle(Vec3::Y, PI * timer.delta_seconds() / 4.);
+    transform.rotate_around(Vec3::ZERO, rotation);
 }
